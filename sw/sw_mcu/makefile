@@ -55,7 +55,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.s
 	@echo [Done]
 
 # Do all operations including flashing
-all: build flash
+all: build
 
 # Do only a rebuild
 build: clean rebuild
