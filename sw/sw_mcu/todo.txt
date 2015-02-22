@@ -3,3 +3,5 @@ Modify makefile to accomodate multiple folders in source
 Clean startup routines, maybe there is no need for that much flash
 
 Learn git :)
+
+Add const qualifier to read only struct members in registers
