@@ -5,8 +5,8 @@ out/cms_sw.elf:     file format elf32-littlearm
 Disassembly of section .text:
 
 08000188 <main>:
-#include <stdint.h>
-#include "per.h"
+	RCC->CR.bits.PLLON = SET;
+}
 
 void main(void)
 {
@@ -14,8 +14,8 @@ void main(void)
  8000188:	4905      	ldr	r1, [pc, #20]	; (80001a0 <_estartup+0x18>)
 	RCC->CR.bits.PLLON = SET;
  800018a:	4a06      	ldr	r2, [pc, #24]	; (80001a4 <_estartup+0x1c>)
-#include <stdint.h>
-#include "per.h"
+	RCC->CR.bits.PLLON = SET;
+}
 
 void main(void)
 {
@@ -68,7 +68,7 @@ void usb_init(void)
  80001e6:	0000      	.short	0x0000
  80001e8:	0800023c 	.word	0x0800023c
  80001ec:	10000000 	.word	0x10000000
- 80001f0:	00000000 	.word	0x00000000
+ 80001f0:	00000020 	.word	0x00000020
  80001f4:	0800023c 	.word	0x0800023c
  80001f8:	20000000 	.word	0x20000000
 	...
@@ -108,3 +108,33 @@ void usb_init(void)
 
 08000238 <ADC1_2_IRQHandler>:
  8000238:	f7ff bffe 	b.w	8000238 <ADC1_2_IRQHandler>
+
+Disassembly of section .ccram:
+
+10000000 <USB_HP_CAN1_TX_IRQHandler>:
+
+void USB_HP_CAN1_TX_IRQHandler(void) __attribute__ ((section (".ccram")));
+
+void USB_HP_CAN1_TX_IRQHandler(void)
+{
+	USB->CNTR.bits.CTRM = CLR;
+10000000:	4905      	ldr	r1, [pc, #20]	; (10000018 <USB_HP_CAN1_TX_IRQHandler+0x18>)
+	RCC->CR.bits.PLLON = SET;
+10000002:	4a06      	ldr	r2, [pc, #24]	; (1000001c <USB_HP_CAN1_TX_IRQHandler+0x1c>)
+
+void USB_HP_CAN1_TX_IRQHandler(void) __attribute__ ((section (".ccram")));
+
+void USB_HP_CAN1_TX_IRQHandler(void)
+{
+	USB->CNTR.bits.CTRM = CLR;
+10000004:	6c0b      	ldr	r3, [r1, #64]	; 0x40
+10000006:	f423 3380 	bic.w	r3, r3, #65536	; 0x10000
+1000000a:	640b      	str	r3, [r1, #64]	; 0x40
+	RCC->CR.bits.PLLON = SET;
+1000000c:	6813      	ldr	r3, [r2, #0]
+1000000e:	f043 0380 	orr.w	r3, r3, #128	; 0x80
+10000012:	6013      	str	r3, [r2, #0]
+10000014:	4770      	bx	lr
+10000016:	bf00      	nop
+10000018:	40005c00 	.word	0x40005c00
+1000001c:	40021000 	.word	0x40021000
