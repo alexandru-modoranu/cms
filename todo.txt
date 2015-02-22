@@ -1,1 +1,3 @@
 Make automatic copying of files from sw projects (lib, gui) to ease build process
+
+Make all struct members with read only flag const

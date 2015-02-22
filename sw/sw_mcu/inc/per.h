@@ -23,9 +23,13 @@
 
 /* Core related */
 #define STK_BASE 0xE000E010
+#define FPU_BASE 0xE000ED88
 
 #include "per_stk.h"
+#include "per_fpu.h"
 
 #define STK ((volatile STK_t *)STK_BASE)
+#define FPU ((volatile FPU_t *)FPU_BASE)
+
 
 #endif

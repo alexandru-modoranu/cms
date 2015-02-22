@@ -96,8 +96,6 @@ typedef union
 	uint32_t dword;
 } NVIC_IABR2_t;
 
-/* IPR registers here */
-
 typedef union
 {
 	struct
@@ -107,5 +105,13 @@ typedef union
 	} bits;
 	uint32_t dword;
 } NVIC_STIR_t;
+
+typedef struct
+{
+	NVIC_ISER01_t ISER0;
+	NVIC_ISER01_t ISER1;
+	NVIC_ISER2_t ISER2;
+	/*uint32_t reserved1[]*/
+} NVIC_t;
 
 #endif
