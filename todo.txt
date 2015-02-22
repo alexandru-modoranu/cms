@@ -1,0 +1,1 @@
+Make automatic copying of files from sw projects (lib, gui) to ease build process
