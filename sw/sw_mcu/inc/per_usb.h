@@ -107,7 +107,7 @@ typedef union
 		uint16_t reserved1 :1;
 	} bits;
 	uint16_t word;
-} USBMEM_ADDRn_TX_t;
+} USB_ADDRn_TX_t;
 
 typedef union
 {
@@ -117,7 +117,7 @@ typedef union
 		uint16_t COUNTn_TX :10;
 	} bits;
 	uint16_t word;
-} USBMEM_COUNTn_TX_t;
+} USB_COUNTn_TX_t;
 
 typedef union
 {
@@ -127,7 +127,7 @@ typedef union
 		uint16_t reserved1 :1;
 	} bits;
 	uint16_t word;
-} USBMEM_ADDRn_RX_t;
+} USB_ADDRn_RX_t;
 
 typedef union
 {
@@ -138,7 +138,7 @@ typedef union
 		uint16_t COUNTn_RX :10;
 	} bits;
 	uint16_t word;
-} USBMEM_COUNTn_RX_t;
+} USB_COUNTn_RX_t;
 
 typedef struct
 {
