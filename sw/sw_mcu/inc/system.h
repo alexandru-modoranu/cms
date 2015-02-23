@@ -1,6 +1,6 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-void system_initPeripherals( void );
+void system_initClock(void);
 
 #endif

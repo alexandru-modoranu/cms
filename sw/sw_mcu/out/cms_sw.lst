@@ -5,83 +5,139 @@ out/cms_sw.elf:     file format elf32-littlearm
 Disassembly of section .text:
 
 08000188 <main>:
-#include "per.h"
+#include "system.h"
+#include "usb.h"
 
 
 void main(void)
 {
-	FPU->FPCCR.bits.ASPEN = 1u;
- 8000188:	4a03      	ldr	r2, [pc, #12]	; (8000198 <_estartup+0x10>)
- 800018a:	f8d2 31ac 	ldr.w	r3, [r2, #428]	; 0x1ac
- 800018e:	f043 0301 	orr.w	r3, r3, #1
- 8000192:	f8c2 31ac 	str.w	r3, [r2, #428]	; 0x1ac
+ 8000188:	b508      	push	{r3, lr}
+	uint32_t *pnt;
+
+	system_initClock();
+ 800018a:	f000 f801 	bl	8000190 <system_initClock>
+
+	pnt = &NVIC->STIR.dword;
 
 	while(1);
- 8000196:	e7fe      	b.n	8000196 <main+0xe>
- 8000198:	e000ed88 	.word	0xe000ed88
+ 800018e:	e7fe      	b.n	800018e <main+0x6>
 
-0800019c <Reset_Handler>:
- 800019c:	4a0e      	ldr	r2, [pc, #56]	; (80001d8 <Reset_Handler+0x3c>)
- 800019e:	490f      	ldr	r1, [pc, #60]	; (80001dc <Reset_Handler+0x40>)
- 80001a0:	4b0f      	ldr	r3, [pc, #60]	; (80001e0 <Reset_Handler+0x44>)
- 80001a2:	f000 f82d 	bl	8000200 <wordCopy>
- 80001a6:	4a0f      	ldr	r2, [pc, #60]	; (80001e4 <Reset_Handler+0x48>)
- 80001a8:	490f      	ldr	r1, [pc, #60]	; (80001e8 <Reset_Handler+0x4c>)
- 80001aa:	4b10      	ldr	r3, [pc, #64]	; (80001ec <Reset_Handler+0x50>)
- 80001ac:	f000 f828 	bl	8000200 <wordCopy>
- 80001b0:	4a0f      	ldr	r2, [pc, #60]	; (80001f0 <Reset_Handler+0x54>)
- 80001b2:	4910      	ldr	r1, [pc, #64]	; (80001f4 <Reset_Handler+0x58>)
- 80001b4:	4b10      	ldr	r3, [pc, #64]	; (80001f8 <Reset_Handler+0x5c>)
- 80001b6:	f000 f82d 	bl	8000214 <wordSet>
- 80001ba:	4a10      	ldr	r2, [pc, #64]	; (80001fc <Reset_Handler+0x60>)
- 80001bc:	6813      	ldr	r3, [r2, #0]
- 80001be:	f443 0370 	orr.w	r3, r3, #15728640	; 0xf00000
- 80001c2:	6013      	str	r3, [r2, #0]
- 80001c4:	f3bf 8f4f 	dsb	sy
- 80001c8:	f3bf 8f6f 	isb	sy
- 80001cc:	f7ff ffdc 	bl	8000188 <main>
- 80001d0:	bf00      	nop
- 80001d2:	f000 b829 	b.w	8000228 <ADC1_2_IRQHandler>
- 80001d6:	0000      	.short	0x0000
- 80001d8:	0800022c 	.word	0x0800022c
- 80001dc:	10000000 	.word	0x10000000
- 80001e0:	00000000 	.word	0x00000000
- 80001e4:	0800022c 	.word	0x0800022c
- 80001e8:	20000000 	.word	0x20000000
+08000190 <system_initClock>:
+void system_initClock(void)
+{
+	/* !TODO Make this modifiable with defines */
+
+	/* Enable external oscillator */
+	RCC->CR.bits.HSEON = SET;
+ 8000190:	4910      	ldr	r1, [pc, #64]	; (80001d4 <system_initClock+0x44>)
+ 8000192:	680b      	ldr	r3, [r1, #0]
+ 8000194:	f443 3380 	orr.w	r3, r3, #65536	; 0x10000
+ 8000198:	600b      	str	r3, [r1, #0]
+
+	/* Wait for oscillator stabilizaton */
+	while(RCC->CR.bits.HSERDY != SET);
+ 800019a:	680a      	ldr	r2, [r1, #0]
+ 800019c:	4b0d      	ldr	r3, [pc, #52]	; (80001d4 <system_initClock+0x44>)
+ 800019e:	0390      	lsls	r0, r2, #14
+ 80001a0:	d5fb      	bpl.n	800019a <system_initClock+0xa>
+
+	/* Define PLL multiplication */
+	RCC->CFGR.bits.PLLMUL = 4u;
+ 80001a2:	685a      	ldr	r2, [r3, #4]
+ 80001a4:	f422 1270 	bic.w	r2, r2, #3932160	; 0x3c0000
+ 80001a8:	f442 1280 	orr.w	r2, r2, #1048576	; 0x100000
+ 80001ac:	605a      	str	r2, [r3, #4]
+
+	/* Define the PLL source to be HSE */
+	RCC->CFGR.bits.PLLSRC = SET;
+ 80001ae:	685a      	ldr	r2, [r3, #4]
+ 80001b0:	f442 3280 	orr.w	r2, r2, #65536	; 0x10000
+ 80001b4:	605a      	str	r2, [r3, #4]
+
+	/* Enable the PLL */
+	RCC->CR.bits.PLLON = SET;
+ 80001b6:	681a      	ldr	r2, [r3, #0]
+ 80001b8:	f042 7280 	orr.w	r2, r2, #16777216	; 0x1000000
+ 80001bc:	601a      	str	r2, [r3, #0]
+
+	/* Wait for PLL lock */
+	while(RCC->CR.bits.PLLRDY != SET);
+ 80001be:	681a      	ldr	r2, [r3, #0]
+ 80001c0:	4904      	ldr	r1, [pc, #16]	; (80001d4 <system_initClock+0x44>)
+ 80001c2:	0192      	lsls	r2, r2, #6
+ 80001c4:	d5fb      	bpl.n	80001be <system_initClock+0x2e>
+
+	/* Define the system source to be th PLL */
+	RCC->CFGR.bits.SW = 2u;
+ 80001c6:	684b      	ldr	r3, [r1, #4]
+ 80001c8:	f023 0303 	bic.w	r3, r3, #3
+ 80001cc:	f043 0302 	orr.w	r3, r3, #2
+ 80001d0:	604b      	str	r3, [r1, #4]
+ 80001d2:	4770      	bx	lr
+ 80001d4:	40021000 	.word	0x40021000
+
+080001d8 <Reset_Handler>:
+ 80001d8:	4a0e      	ldr	r2, [pc, #56]	; (8000214 <Reset_Handler+0x3c>)
+ 80001da:	490f      	ldr	r1, [pc, #60]	; (8000218 <Reset_Handler+0x40>)
+ 80001dc:	4b0f      	ldr	r3, [pc, #60]	; (800021c <Reset_Handler+0x44>)
+ 80001de:	f000 f82d 	bl	800023c <wordCopy>
+ 80001e2:	4a0f      	ldr	r2, [pc, #60]	; (8000220 <Reset_Handler+0x48>)
+ 80001e4:	490f      	ldr	r1, [pc, #60]	; (8000224 <Reset_Handler+0x4c>)
+ 80001e6:	4b10      	ldr	r3, [pc, #64]	; (8000228 <Reset_Handler+0x50>)
+ 80001e8:	f000 f828 	bl	800023c <wordCopy>
+ 80001ec:	4a0f      	ldr	r2, [pc, #60]	; (800022c <Reset_Handler+0x54>)
+ 80001ee:	4910      	ldr	r1, [pc, #64]	; (8000230 <Reset_Handler+0x58>)
+ 80001f0:	4b10      	ldr	r3, [pc, #64]	; (8000234 <Reset_Handler+0x5c>)
+ 80001f2:	f000 f82d 	bl	8000250 <wordSet>
+ 80001f6:	4a10      	ldr	r2, [pc, #64]	; (8000238 <Reset_Handler+0x60>)
+ 80001f8:	6813      	ldr	r3, [r2, #0]
+ 80001fa:	f443 0370 	orr.w	r3, r3, #15728640	; 0xf00000
+ 80001fe:	6013      	str	r3, [r2, #0]
+ 8000200:	f3bf 8f4f 	dsb	sy
+ 8000204:	f3bf 8f6f 	isb	sy
+ 8000208:	f7ff ffbe 	bl	8000188 <main>
+ 800020c:	bf00      	nop
+ 800020e:	f000 b829 	b.w	8000264 <ADC1_2_IRQHandler>
+ 8000212:	0000      	.short	0x0000
+ 8000214:	08000268 	.word	0x08000268
+ 8000218:	10000000 	.word	0x10000000
+ 800021c:	00000000 	.word	0x00000000
+ 8000220:	08000268 	.word	0x08000268
+ 8000224:	20000000 	.word	0x20000000
 	...
- 80001f4:	20000000 	.word	0x20000000
- 80001f8:	00000000 	.word	0x00000000
- 80001fc:	e000ed88 	.word	0xe000ed88
+ 8000230:	20000000 	.word	0x20000000
+ 8000234:	00000000 	.word	0x00000000
+ 8000238:	e000ed88 	.word	0xe000ed88
 
-08000200 <wordCopy>:
- 8000200:	2b00      	cmp	r3, #0
- 8000202:	d005      	beq.n	8000210 <wordCopyExit>
- 8000204:	f1a3 0304 	sub.w	r3, r3, #4
+0800023c <wordCopy>:
+ 800023c:	2b00      	cmp	r3, #0
+ 800023e:	d005      	beq.n	800024c <wordCopyExit>
+ 8000240:	f1a3 0304 	sub.w	r3, r3, #4
 
-08000208 <wordCopyLoop>:
- 8000208:	58d4      	ldr	r4, [r2, r3]
- 800020a:	50cc      	str	r4, [r1, r3]
- 800020c:	3b04      	subs	r3, #4
- 800020e:	dafb      	bge.n	8000208 <wordCopyLoop>
+08000244 <wordCopyLoop>:
+ 8000244:	58d4      	ldr	r4, [r2, r3]
+ 8000246:	50cc      	str	r4, [r1, r3]
+ 8000248:	3b04      	subs	r3, #4
+ 800024a:	dafb      	bge.n	8000244 <wordCopyLoop>
 
-08000210 <wordCopyExit>:
- 8000210:	4770      	bx	lr
- 8000212:	bf00      	nop
+0800024c <wordCopyExit>:
+ 800024c:	4770      	bx	lr
+ 800024e:	bf00      	nop
 
-08000214 <wordSet>:
- 8000214:	2b00      	cmp	r3, #0
- 8000216:	d005      	beq.n	8000224 <wordSetExit>
- 8000218:	f1a3 0304 	sub.w	r3, r3, #4
- 800021c:	4614      	mov	r4, r2
+08000250 <wordSet>:
+ 8000250:	2b00      	cmp	r3, #0
+ 8000252:	d005      	beq.n	8000260 <wordSetExit>
+ 8000254:	f1a3 0304 	sub.w	r3, r3, #4
+ 8000258:	4614      	mov	r4, r2
 
-0800021e <wordSetloop>:
- 800021e:	50cc      	str	r4, [r1, r3]
- 8000220:	3b04      	subs	r3, #4
- 8000222:	dafc      	bge.n	800021e <wordSetloop>
+0800025a <wordSetloop>:
+ 800025a:	50cc      	str	r4, [r1, r3]
+ 800025c:	3b04      	subs	r3, #4
+ 800025e:	dafc      	bge.n	800025a <wordSetloop>
 
-08000224 <wordSetExit>:
- 8000224:	4770      	bx	lr
- 8000226:	bf00      	nop
+08000260 <wordSetExit>:
+ 8000260:	4770      	bx	lr
+ 8000262:	bf00      	nop
 
-08000228 <ADC1_2_IRQHandler>:
- 8000228:	f7ff bffe 	b.w	8000228 <ADC1_2_IRQHandler>
+08000264 <ADC1_2_IRQHandler>:
+ 8000264:	f7ff bffe 	b.w	8000264 <ADC1_2_IRQHandler>

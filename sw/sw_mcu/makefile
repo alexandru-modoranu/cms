@@ -2,7 +2,7 @@
 PROJ_NAME = cms_sw
 
 # Source files to add to the build
-C_FILES = main.c
+C_FILES = main.c system.c
 
 # Assembly files to add to the buid
 ASM_FILES = startup.s
@@ -25,7 +25,7 @@ CP = arm-none-eabi-objcopy
 CC_FLAGS = -I./$(INC_PATH)/ -Wall -Wextra -Wno-main -std=gnu99 -pedantic -O3 -c -g \
 							-mcpu=cortex-m4 -mfloat-abi=hard \
 							-mfpu=fpv4-sp-d16 -mthumb -mabi=aapcs \
-							-fsingle-precision-constant -fno-builtin
+							-fsingle-precision-constant -fno-builtin 
 LD_FLAGS = -T./$(RES_PATH)/script.ld -mcpu=cortex-m4 -mfloat-abi=hard \
 							-mfpu=fpv4-sp-d16 -mthumb -march=armv7e-m -nostartfiles	\
 							-nostdlib
