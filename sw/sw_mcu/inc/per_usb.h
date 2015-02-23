@@ -156,7 +156,7 @@ typedef struct
 	USB_FNR_t FNR;
 	USB_DADDR_t DADDR;
 	USB_BTABLE_t BTABLE;
-	uint32_t reserved2[243];
+	uint32_t reserved2[223];
 	USB_ADDRn_TX_t ADDR0_TX;
 	USB_COUNTn_TX_t COUNT0_TX;
 	USB_ADDRn_RX_t ADDR0_RX;
