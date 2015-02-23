@@ -1,6 +1,8 @@
 #ifndef PER_NVIC_H
 #define PER_NVIC_H
 
+/* !TODO Finish definitions according to CM4 programming manual */
+
 typedef union
 {
 	struct
