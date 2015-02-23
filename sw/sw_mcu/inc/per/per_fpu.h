@@ -5,10 +5,10 @@ typedef union
 {
 	struct
 	{
-		_I32_ reserved1 :8;
-		_IO32_ CP11 :2;
+		_I32_ reserved1 :20;
 		_IO32_ CP10 :2;
-		_I32_ reserved2 :20;
+		_IO32_ CP11 :2;
+		_I32_ reserved2 :8;
 	} bits;
 	_IO32_ dword;
 } FPU_CPACR_t;
@@ -17,18 +17,18 @@ typedef union
 {
 	struct
 	{
-		_IO32_ ASPEN :1;
-		_IO32_ LSPEN :1;
-		_I32_ reserved1 :21;
-		_IO32_ MONRDY :1;
-		_I32_ reserved2 :1;
-		_IO32_ BFRDY :1;
-		_IO32_ MMRDY :1;
-		_IO32_ HFRDY :1;
-		_IO32_ THREAD :1;
-		_I32_ reserved3 :1;
-		_IO32_ USER :1;
 		_IO32_ LSPAC :1;
+		_IO32_ USER :1;
+		_I32_ reserved1 :1;
+		_IO32_ THREAD :1;
+		_IO32_ HFRDY :1;
+		_IO32_ MMRDY :1;
+		_IO32_ BFRDY :1;
+		_I32_ reserved2 :1;
+		_IO32_ MONRDY :1;
+		_I32_ reserved3 :21;
+		_IO32_ LSPEN :1;
+		_IO32_ ASPEN :1;
 	} bits;
 	_IO32_ dword;
 } FPU_FPCCR_t;
@@ -37,8 +37,8 @@ typedef union
 {
 	struct
 	{
-		_IO32_ ADDRESS :29;
 		_I32_ reserved1 :3;
+		_IO32_ ADDRESS :29;
 	} bits;
 	_IO32_ dword;
 } FPU_FPCAR_t;
@@ -47,12 +47,12 @@ typedef union
 {
 	struct
 	{
-		_I32_ reserved1 :5;
-		_IO32_ AHP :1;
-		_IO32_ DN :1;
-		_IO32_ FZ :1;
+		_I32_ reserved1 :22;
 		_IO32_ RMode :2;
-		_I32_ reserved2 :22;
+		_IO32_ FZ :1;
+		_IO32_ DN :1;
+		_IO32_ AHP :1;
+		_I32_ reserved2 :5;
 	} bits;
 	_IO32_ dword;
 } FPU_FPDSCR_t;

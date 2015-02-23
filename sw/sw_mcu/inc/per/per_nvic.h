@@ -16,8 +16,9 @@ typedef union
 {
 	struct
 	{
-		uint32_t reserved1 :16;
 		uint32_t SETENA :16;
+		uint32_t reserved1 :16;
+
 	} bits;
 	uint32_t dword;
 } NVIC_ISER2_t;
@@ -35,8 +36,9 @@ typedef union
 {
 	struct
 	{
-		uint32_t reserved1 :16;
 		uint32_t CLRENA :16;
+		uint32_t reserved1 :16;
+
 	} bits;
 	uint32_t dword;
 } NVIC_ICER2_t;
@@ -54,8 +56,9 @@ typedef union
 {
 	struct
 	{
-		uint32_t reserved1 :16;
 		uint32_t SETPEND :16;
+		uint32_t reserved1 :16;
+
 	} bits;
 	uint32_t dword;
 } NVIC_ISPR2_t;
@@ -73,8 +76,9 @@ typedef union
 {
 	struct
 	{
-		uint32_t reserved1 :16;
 		uint32_t CLRPEND :16;
+		uint32_t reserved1 :16;
+
 	} bits;
 	uint32_t dword;
 } NVIC_ICPR2_t;
@@ -92,8 +96,9 @@ typedef union
 {
 	struct
 	{
-		uint32_t reserved1 :16;
 		uint32_t ACTIVE :16;
+		uint32_t reserved1 :16;
+
 	} bits;
 	uint32_t dword;
 } NVIC_IABR2_t;
@@ -102,8 +107,9 @@ typedef union
 {
 	struct
 	{
-		uint32_t reserved1 :23;
 		uint32_t INTID :9;
+		uint32_t reserved1 :23;
+
 	} bits;
 	uint32_t dword;
 } NVIC_STIR_t;
@@ -113,7 +119,7 @@ typedef struct
 	NVIC_ISER01_t ISER0;
 	NVIC_ISER01_t ISER1;
 	NVIC_ISER2_t ISER2;
-	/*uint32_t reserved1[]*/
+/*uint32_t reserved1[]*/
 } NVIC_t;
 
 #endif

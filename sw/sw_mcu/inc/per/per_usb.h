@@ -5,17 +5,17 @@ typedef union
 {
 	struct
 	{
-		_I32_ reserved1 :16;
-		_IO32_ CTR_RX :1;
-		_IO32_ DTOG_RX :1;
-		_IO32_ STAT_RX :2;
-		_IO32_ SETUP :1;
-		_IO32_ EP_TYPE :2;
-		_IO32_ EP_KIND :1;
-		_IO32_ CTR_TX :1;
-		_IO32_ DTOG_TX :1;
-		_IO32_ STAT_TX :2;
 		_IO32_ EA :4;
+		_IO32_ STAT_TX :2;
+		_IO32_ DTOG_TX :1;
+		_IO32_ CTR_TX :1;
+		_IO32_ EP_KIND :1;
+		_IO32_ EP_TYPE :2;
+		_IO32_ SETUP :1;
+		_IO32_ STAT_RX :2;
+		_IO32_ DTOG_RX :1;
+		_IO32_ CTR_RX :1;
+		_I32_ reserved1 :16;
 	} bits;
 	_IO32_ dword;
 } USB_EPnR_t;
@@ -24,21 +24,21 @@ typedef union
 {
 	struct
 	{
-		_I32_ reserved1 :16;
-		_IO32_ CTRM :1;
-		_IO32_ PMAOVRM :1;
-		_IO32_ ERRM :1;
-		_IO32_ WKUPM :1;
-		_IO32_ SUSPM :1;
-		_IO32_ RESETM :1;
-		_IO32_ SOFM :1;
-		_IO32_ ESOFM :1;
-		_I32_ reserved2 :3;
-		_IO32_ RESUME :1;
-		_IO32_ FSUSP :1;
-		_IO32_ LPMODE :1;
-		_IO32_ PDWN :1;
 		_IO32_ FRES :1;
+		_IO32_ PDWN :1;
+		_IO32_ LPMODE :1;
+		_IO32_ FSUSP :1;
+		_IO32_ RESUME :1;
+		_I32_ reserved1 :3;
+		_IO32_ ESOFM :1;
+		_IO32_ SOFM :1;
+		_IO32_ RESETM :1;
+		_IO32_ SUSPM :1;
+		_IO32_ WKUPM :1;
+		_IO32_ ERRM :1;
+		_IO32_ PMAOVRM :1;
+		_IO32_ CTRM :1;
+		_I32_ reserved2 :16;
 	} bits;
 	_IO32_ dword;
 } USB_CNTR_t;
@@ -47,18 +47,18 @@ typedef union
 {
 	struct
 	{
-		_I32_ reserved1 :16;
-		_I32_ CTR :1;
-		_IO32_ PMAOVR :1;
-		_IO32_ ERR :1;
-		_IO32_ WKUP :1;
-		_IO32_ SUSP :1;
-		_IO32_ RESET :1;
-		_IO32_ SOF :1;
-		_IO32_ ESOF :1;
-		_I32_ reserved2 :3;
-		_I32_ DIR :1;
 		_I32_ EP_ID :4;
+		_I32_ DIR :1;
+		_I32_ reserved1 :3;
+		_IO32_ ESOF :1;
+		_IO32_ SOF :1;
+		_IO32_ RESET :1;
+		_IO32_ SUSP :1;
+		_IO32_ WKUP :1;
+		_IO32_ ERR :1;
+		_IO32_ PMAOVR :1;
+		_I32_ CTR :1;
+		_I32_ reserved2 :16;
 	} bits;
 	_IO32_ dword;
 } USB_ISTR_t;
@@ -67,12 +67,12 @@ typedef union
 {
 	struct
 	{
-		_I32_ reserved1 :16;
-		_I32_ RXDP :1;
-		_I32_ RXDM :1;
-		_I32_ LCK :1;
-		_I32_ LSOF :2;
 		_I32_ FN :11;
+		_I32_ LSOF :2;
+		_I32_ LCK :1;
+		_I32_ RXDM :1;
+		_I32_ RXDP :1;
+		_I32_ reserved1 :16;
 	} bits;
 	_IO32_ dword;
 } USB_FNR_t;
@@ -81,9 +81,9 @@ typedef union
 {
 	struct
 	{
-		_I32_ reserved1 :24;
-		_IO32_ EF :1;
 		_IO32_ ADD :7;
+		_IO32_ EF :1;
+		_I32_ reserved1 :24;
 	} bits;
 	_IO32_ dword;
 } USB_DADDR_t;
@@ -92,9 +92,9 @@ typedef union
 {
 	struct
 	{
-		_I32_ reserved1 :16;
+		_I32_ reserved1 :3;
 		_IO32_ BTABLE :13;
-		_I32_ reserved2 :3;
+		_I32_ reserved2 :16;
 	} bits;
 	_IO32_ dword;
 } USB_BTABLE_t;
@@ -103,8 +103,8 @@ typedef union
 {
 	struct
 	{
-		_IO16_ ADDRn_TX :15;
 		_I16_ reserved1 :1;
+		_IO16_ ADDRn_TX :15;
 	} bits;
 	_IO16_ word;
 } USB_ADDRn_TX_t;
@@ -113,8 +113,8 @@ typedef union
 {
 	struct
 	{
-		_I16_ reserved1 :6;
 		_IO16_ COUNTn_TX :10;
+		_I16_ reserved1 :6;
 	} bits;
 	_IO16_ word;
 } USB_COUNTn_TX_t;
@@ -123,8 +123,8 @@ typedef union
 {
 	struct
 	{
-		_IO16_ ADDRn_RX :15;
 		_I16_ reserved1 :1;
+		_IO16_ ADDRn_RX :15;
 	} bits;
 	_IO16_ word;
 } USB_ADDRn_RX_t;
@@ -133,9 +133,9 @@ typedef union
 {
 	struct
 	{
-		_IO16_ BLSIZE :1;
-		_IO16_ NUM_BLOCK :5;
 		_IO16_ COUNTn_RX :10;
+		_IO16_ NUM_BLOCK :5;
+		_IO16_ BLSIZE :1;
 	} bits;
 	_IO16_ word;
 } USB_COUNTn_RX_t;
