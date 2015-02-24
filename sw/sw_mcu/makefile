@@ -2,7 +2,7 @@
 PROJ_NAME = cms_sw
 
 # Source files to add to the build
-C_FILES = main.c system.c
+C_FILES = main.c system.c usb.c util.c per_nvic.c
 
 # Assembly files to add to the buid
 ASM_FILES = startup.s
