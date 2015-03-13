@@ -38,10 +38,19 @@ def generateBitMacros(per, reg, bit, desc, size, offset):
 			ret += generateDefine(param, val); 	
 	ret += generateDefine("%s_%s_%s" % (per, reg, bit), "(%s_%s_%s_MASK << %s_%s_%s_OFFSET)" % (per, reg, bit, per, reg, bit))
 	return ret
+
+def generateRegisterMacro(per, reg, desc, type, size, offset):
+	"""Generates defines for register macros"""
+	ret = generateInfoHeader(desc)
+	ret += generateDefine("%s_%s_OFFSET" % (per, reg), "(%su)" % (format(offset, "#3x")))
+	ret += generateDefine("%s_%s_TYPE" % (per, reg), "(uint32_t)")
+	ret += generateDefine("%s_%s_ADDRESS" % (per, reg), "(%s_%s_BASE + %s_%s_OFFSET)" % (per, reg, per, reg))
+	ret += generateDefine("%s_%s" % (per, reg), "*((%s_%s_TYPE *)%s_%s_ADDRESS)" % (per, reg, per, reg))
+	return ret
 	
 if __name__ == "__main__":
-	for i in range(32):
-		print generateBitMacros("USB", "CNTR", "EP", "Endpoint register", i, i)		
+	print generateRegisterMacro("USB", "CNTR", "register", 1, 32, 4)
+	print generateBitMacros("USB", "CNTR", "EP", "Endpoint register", 2, 2)		
 
 
 """
