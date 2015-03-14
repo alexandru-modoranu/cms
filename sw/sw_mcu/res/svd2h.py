@@ -92,11 +92,11 @@ def generateType(size, acc):
 	else:
 		qual = " "
 	if size <= 8:
-		ret = "(volatile%s%s)" % (qual, accparamDefU8Type)
+		ret = "volatile%s%s" % (qual, accparamDefU8Type)
 	elif size <= 16:
-		ret = "(volatile%s%s)" % (qual, paramDefU16Type)
+		ret = "volatile%s%s" % (qual, paramDefU16Type)
 	else:
-		ret = "(volatile%s%s)" % (qual, paramDefU32Type)
+		ret = "volatile%s%s" % (qual, paramDefU32Type)
 	return ret	
 
 def generateMask(size):
@@ -143,7 +143,7 @@ def generateRegisterMacro(per, reg, desc, size, offset, acc):
 	ret = generateInfoHeader(desc)
 	ret += generateDefine("%s_%s_OFFSET" % (per, reg), "(%su)" % (format(offset, "#3x")))
 	ret += generateDefine("%s_%s_TYPE" % (per, reg), generateType(size, acc))
-	ret += generateDefine("%s_%s_ADDRESS" % (per, reg), "(%s_%s_BASE + %s_%s_OFFSET)" % (per, reg, per, reg))
+	ret += generateDefine("%s_%s_ADDRESS" % (per, reg), "(%s_BASE + %s_%s_OFFSET)" % (per, per, reg))
 	ret += generateDefine("%s_%s" % (per, reg), "*((%s_%s_TYPE *)%s_%s_ADDRESS)\n" % (per, reg, per, reg))
 	return ret
 
